@@ -33,9 +33,16 @@
  
     $( window ).on( "load", function() {
         console.log( "window loaded" );
-        	 window.parent.setData(this);     
+        	     
         
     });
+    
+    function foo(){
+    	window.parent.setData("aqui");
+    }
+    		 		
+    
+    
     </script>
     
     
@@ -70,6 +77,12 @@
         <td colspan="2" style="color:red;" id="errorLabelContainer"></td>
       </tr>
     </table>
+    
+    <button type="button" onclick="foo()">Click Me!</button>
+    
+    <div name="aqui" id="aqui" ></div>
+    
+    
   </body>
   
   
