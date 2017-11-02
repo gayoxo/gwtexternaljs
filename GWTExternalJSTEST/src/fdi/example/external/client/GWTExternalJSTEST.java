@@ -3,10 +3,20 @@ package fdi.example.external.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.Window;
 //import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import fdi.example.external.shared.SharedObject;
+
+
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -39,7 +49,36 @@ public class GWTExternalJSTEST implements EntryPoint {
 		LB.addItem("primero7");
 		LB.addItem("primero8");
 		LB.addItem("primero9");
+		LB.addItem("primero10");
+		LB.addItem(getVariableBase());
 		VP.add(LB);
+
+		
+		 RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "aa.txt");
+
+	        try {
+	            builder.sendRequest(null, new RequestCallback() {
+	                public void onError(Request request, Throwable exception) {
+	                    // Code omitted for clarity
+	                }
+
+	                public void onResponseReceived(Request request, Response response) {
+	                    // Code omitted for clarity
+	                	
+	                	Window.alert(response.getText());
+	                	
+//	                	
+//	                	Serializer serializer = (Serializer) GWT.create(Serializer.class);
+//
+//	                	DocumentCompleteJSON Hola=(DocumentCompleteJSON) serializer.deSerialize(response.getText(), "fdi.ucm.server.interconect.model.DocumentCompleteJSON");
+//	                	Window.alert(Hola.getDocumento().getId()+"");
+	                }
+	            });
+
+	        } catch (RequestException e) {
+	            // Code omitted for clarity
+	        }
+		
 	}
 
 	/**
@@ -53,9 +92,18 @@ public class GWTExternalJSTEST implements EntryPoint {
     	GWT.log(javaScriptObject.toString());
     //	Window.alert("HolaMundo");
         // this method is now reachable as window.setData
+    	
+    	
     	new GWTExternalJSTEST(javaScriptObject.toString());
-   
+
     }
+    
+    
+    
+    
+	public static native String getVariableBase() /*-{
+	  return  $wnd.DocExpand;
+	}-*/;
 
 	/**
 	 * This is the entry point method.
