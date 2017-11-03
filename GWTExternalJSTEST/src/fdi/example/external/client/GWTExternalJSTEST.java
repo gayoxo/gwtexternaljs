@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import fdi.example.external.shared.SharedObject;
+
 
 
 
@@ -50,9 +50,16 @@ public class GWTExternalJSTEST implements EntryPoint {
 		LB.addItem("primero8");
 		LB.addItem("primero9");
 		LB.addItem("primero10");
-		LB.addItem(getVariableBase());
+		
 		VP.add(LB);
 
+		SharedObject JSO=getVariableBase();
+		
+		
+		
+		LB.addItem(JSO.getValor()+JSO.getValor2());
+		
+		
 		
 		 RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "aa.txt");
 
@@ -101,7 +108,7 @@ public class GWTExternalJSTEST implements EntryPoint {
     
     
     
-	public static native String getVariableBase() /*-{
+	public static native SharedObject getVariableBase() /*-{
 	  return  $wnd.DocExpand;
 	}-*/;
 
