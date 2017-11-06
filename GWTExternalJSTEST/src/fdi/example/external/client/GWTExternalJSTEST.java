@@ -2,6 +2,7 @@ package fdi.example.external.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -32,7 +33,10 @@ public class GWTExternalJSTEST implements EntryPoint {
 	}
 	
 	
-	public GWTExternalJSTEST(String id) {
+	public GWTExternalJSTEST(String id, String valorDS) {
+		
+		int valorD = Integer.parseInt(valorDS);
+		
 		RootPanel RP=RootPanel.get(id);
 		VerticalPanel VP=new VerticalPanel();
 		RP.add(VP);
@@ -53,7 +57,7 @@ public class GWTExternalJSTEST implements EntryPoint {
 		
 		VP.add(LB);
 
-		SharedObject JSO=getVariableBase();
+		SharedObject JSO=getVariableBase(valorD);
 		
 		
 		
@@ -95,21 +99,32 @@ public class GWTExternalJSTEST implements EntryPoint {
         $wnd.setData = @fdi.example.external.client.GWTExternalJSTEST::setData(Lcom/google/gwt/core/client/JavaScriptObject;);
     }-*/;
 
-    private static void setData(JavaScriptObject javaScriptObject) {
+    @SuppressWarnings("unchecked")
+	private static void setData(JavaScriptObject javaScriptObject) {
     	GWT.log(javaScriptObject.toString());
-    //	Window.alert("HolaMundo");
-        // this method is now reachable as window.setData
+    	if (javaScriptObject instanceof JsArray)
+    	{
+    		new GWTExternalJSTEST(((JsArray<JavaScriptObject>)javaScriptObject).get(0).toString(),((JsArray<JavaScriptObject>)javaScriptObject).get(1).toString());
+    	}
+    		else
+    		{
+
+    			new GWTExternalJSTEST(javaScriptObject.toString(),"0");
     	
     	
-    	new GWTExternalJSTEST(javaScriptObject.toString());
+    		}
 
     }
     
     
     
     
-	public static native SharedObject getVariableBase() /*-{
-	  return  $wnd.DocExpand;
+	public static native SharedObject getVariableBase(int valorD) /*-{
+		$wnd.daletmp = '$wnd.dale = $wnd.DocExpand'+valorD;
+	eval($wnd.daletmp)
+	 console.log($wnd.dale);
+	  return  $wnd.dale;
+		
 	}-*/;
 
 	/**
